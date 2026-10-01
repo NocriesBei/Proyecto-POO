@@ -7,6 +7,8 @@ Aplicación de escritorio para la gestión de punto de venta (POS), cobros e imp
 * Arquitectura: MVC
 
 ## Equipo SCRUM
-* Product Owner: [Nombre de tu compañero]
+* Product Owner: Italia Cardeña Doorantes
 * Scrum Master: Angel Beiza Lopez
-* Development Team: [Nombres del resto del equipo]
+* Development Team: Herrera Velasco Leticia
+Karolina, Jacome Huerta Jaziel, Cardeña
+Dorantes Italia, Beiza López Ángel
