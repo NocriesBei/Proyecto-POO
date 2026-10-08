@@ -1,4 +1,4 @@
-[7:35 p.m., 7/10/2026] +52 1 228 312 1031: package com.penascal.main;
+package com.penascal.main;
 
 import com.penascal.vista.PantallaPrincipal;
 import javax.swing.UIManager;
