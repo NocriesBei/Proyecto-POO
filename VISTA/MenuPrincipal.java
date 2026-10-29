@@ -3,12 +3,10 @@ package com.penascal.vista;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
-import javax.swing.JOptionPane;
-import java.awt.Font;
-import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -17,35 +15,62 @@ public class MenuPrincipal extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private String rolActual;
+    private PanelResumen panelResumen;
 
     public MenuPrincipal(String rol) {
         this.rolActual = rol;
-        
+        Estilo.aplicarTema();
+
         setTitle("Taquería Peñascal - Menú Principal");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 500);
-        setLocationRelativeTo(null);
-        
+        setResizable(false);
+
         contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setPreferredSize(new java.awt.Dimension(1120, 690));
+        contentPane.setBackground(Estilo.CREMA);
+        contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
+        pack();
+        setLocationRelativeTo(null);
+
+        // ================= BARRA LATERAL (MENÚ) =================
+        JPanel barraLateral = new JPanel();
+        barraLateral.setBackground(Estilo.BLANCO);
+        barraLateral.setBorder(new MatteBorder(0, 0, 0, 1, Estilo.BORDE));
+        barraLateral.setLayout(null);
+        barraLateral.setBounds(0, 0, 300, 690);
+        contentPane.add(barraLateral);
+
+        // --- BANNER DE PAPEL PICADO ---
+        JLabel banner = Estilo.banner(300);
+        banner.setBounds(0, 0, 300, Estilo.altoBanner(300));
+        barraLateral.add(banner);
+
         // --- ENCABEZADOS ---
         JLabel lblTitulo = new JLabel("TAQUERÍA PEÑASCAL");
         lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-        lblTitulo.setFont(new Font("Dialog", Font.BOLD, 28));
-        lblTitulo.setBounds(10, 30, 564, 40);
-        contentPane.add(lblTitulo);
-        
+        Estilo.titulo(lblTitulo, 23f, Estilo.ROSA);
+        lblTitulo.setBounds(0, 92, 299, 34);
+        barraLateral.add(lblTitulo);
+
+        JLabel lblSubtitulo = new JLabel("Menú principal  ·  Sesión: " + rolActual);
+        lblSubtitulo.setHorizontalAlignment(SwingConstants.CENTER);
+        Estilo.subtitulo(lblSubtitulo);
+        lblSubtitulo.setBounds(0, 128, 299, 20);
+        barraLateral.add(lblSubtitulo);
+
+        JPanel barra = Estilo.linea(Estilo.AMARILLO);
+        barra.setBounds(110, 160, 80, 4);
+        barraLateral.add(barra);
+
         // --- BOTONES DE MÓDULOS ---
-        JButton btnVentas = new JButton("1. Punto de Venta");
-        btnVentas.setFont(new Font("Dialog", Font.BOLD, 14));
-        btnVentas.setBackground(new Color(39, 174, 96));
-        btnVentas.setForeground(Color.WHITE);
-        btnVentas.setBounds(150, 130, 280, 50);
-        contentPane.add(btnVentas);
-        
+        JButton btnVentas = new JButton("Punto de Venta");
+        Estilo.boton(btnVentas, Estilo.ROSA);
+        btnVentas.setFont(Estilo.fuente(java.awt.Font.BOLD, 16f));
+        btnVentas.setBounds(30, 196, 240, 58);
+        barraLateral.add(btnVentas);
+
         btnVentas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 PuntoVenta ventanaVentas = new PuntoVenta(rolActual); 
@@ -54,25 +79,29 @@ public class MenuPrincipal extends JFrame {
             }
         });
         
-        JButton btnProductos = new JButton("2. Gestión de Productos");
-        btnProductos.setFont(new Font("Dialog", Font.BOLD, 14));
-        btnProductos.setBackground(new Color(41, 128, 185));
-        btnProductos.setForeground(Color.WHITE);
-        btnProductos.setBounds(150, 200, 280, 50);
-        contentPane.add(btnProductos);
+        JButton btnProductos = new JButton("Gestión de Productos");
+        Estilo.boton(btnProductos, Estilo.NARANJA);
+        btnProductos.setFont(Estilo.fuente(java.awt.Font.BOLD, 16f));
+        btnProductos.setBounds(30, 268, 240, 58);
+        barraLateral.add(btnProductos);
         
-        JButton btnReportes = new JButton("3. Reportes y Cortes");
-        btnReportes.setFont(new Font("Dialog", Font.BOLD, 14));
-        btnReportes.setBackground(new Color(142, 68, 173));
-        btnReportes.setForeground(Color.WHITE);
-        btnReportes.setBounds(150, 270, 280, 50);
-        contentPane.add(btnReportes);
+        JButton btnReportes = new JButton("Reportes y Cortes");
+        Estilo.boton(btnReportes, Estilo.TURQUESA);
+        btnReportes.setFont(Estilo.fuente(java.awt.Font.BOLD, 16f));
+        btnReportes.setBounds(30, 340, 240, 58);
+        barraLateral.add(btnReportes);
+        btnReportes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ReportesCorte ventanaReportes = new ReportesCorte(rolActual);
+                ventanaReportes.setVisible(true);
+                dispose();
+            }
+        });
         
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
-        btnCerrarSesion.setBackground(new Color(192, 57, 43));
-        btnCerrarSesion.setForeground(Color.WHITE);
-        btnCerrarSesion.setBounds(210, 370, 160, 35);
-        contentPane.add(btnCerrarSesion);
+        Estilo.botonContorno(btnCerrarSesion, Estilo.ROJO);
+        btnCerrarSesion.setBounds(60, 560, 180, 40);
+        barraLateral.add(btnCerrarSesion);
         
         btnCerrarSesion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -84,6 +113,11 @@ public class MenuPrincipal extends JFrame {
                 login.setVisible(true);
             }
         });
+
+        // ================= RESUMEN (GRÁFICAS) =================
+        panelResumen = new PanelResumen(rolActual);
+        panelResumen.setBounds(322, 24, 770, 640);
+        contentPane.add(panelResumen);
 
         // --- RESTRICCIÓN DE ACCESOS POR ROL ---
         if (rolActual.equalsIgnoreCase("Cajero")) {
@@ -101,7 +135,6 @@ public class MenuPrincipal extends JFrame {
         
         btnReportes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Módulo de Reportes en construcción.");
             }
         });
     }
