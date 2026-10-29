@@ -25,55 +25,67 @@ public class RegistroUsuario extends JFrame {
     private JComboBox<String> comboRol;
 
     public RegistroUsuario() {
+        Estilo.aplicarTema();
         setTitle("Taquería Peñascal - Registro de Nuevo Usuario");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 400, 320);
+        setBounds(100, 100, 430, 370);
         setLocationRelativeTo(null);
 
         contentPane = new JPanel();
+        contentPane.setBackground(Estilo.CREMA);
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
+        JPanel tira = Estilo.tira(26);
+        tira.setBounds(0, 0, 430, 26);
+        contentPane.add(tira);
+
         JLabel lblTitulo = new JLabel("Registrar Nuevo Usuario");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lblTitulo.setBounds(20, 20, 250, 25);
+        Estilo.titulo(lblTitulo, 20f, Estilo.ROSA);
+        lblTitulo.setBounds(30, 38, 360, 30);
         contentPane.add(lblTitulo);
 
-        JLabel lblUsuario = new JLabel("Usuario:");
-        lblUsuario.setBounds(20, 70, 80, 25);
+        JLabel lblUsuario = new JLabel("Usuario");
+        Estilo.etiqueta(lblUsuario);
+        lblUsuario.setBounds(30, 88, 100, 34);
         contentPane.add(lblUsuario);
 
         txtUsuario = new JTextField();
-        txtUsuario.setBounds(110, 70, 230, 25);
+        Estilo.campo(txtUsuario);
+        txtUsuario.setBounds(130, 88, 250, 34);
         contentPane.add(txtUsuario);
 
-        JLabel lblPassword = new JLabel("Contraseña:");
-        lblPassword.setBounds(20, 110, 80, 25);
+        JLabel lblPassword = new JLabel("Contraseña");
+        Estilo.etiqueta(lblPassword);
+        lblPassword.setBounds(30, 134, 100, 34);
         contentPane.add(lblPassword);
 
         txtPassword = new JPasswordField();
-        txtPassword.setBounds(110, 110, 230, 25);
+        Estilo.campo(txtPassword);
+        txtPassword.setBounds(130, 134, 250, 34);
         contentPane.add(txtPassword);
 
-        JLabel lblRol = new JLabel("Rol:");
-        lblRol.setBounds(20, 150, 80, 25);
+        JLabel lblRol = new JLabel("Rol");
+        Estilo.etiqueta(lblRol);
+        lblRol.setBounds(30, 180, 100, 34);
         contentPane.add(lblRol);
 
         comboRol = new JComboBox<>();
         comboRol.addItem("Administrador");
         comboRol.addItem("Cajero");
-        comboRol.setBounds(110, 150, 230, 25);
+        Estilo.combo(comboRol);
+        comboRol.setBounds(130, 180, 250, 34);
         contentPane.add(comboRol);
 
         JButton btnRegistrar = new JButton("Registrar");
-        btnRegistrar.setBackground(new Color(41, 128, 185));
-        btnRegistrar.setForeground(Color.WHITE);
-        btnRegistrar.setBounds(20, 210, 150, 35);
+        Estilo.boton(btnRegistrar, Estilo.ROSA);
+        btnRegistrar.setBounds(30, 245, 170, 42);
         contentPane.add(btnRegistrar);
 
         JButton btnCancelar = new JButton("Cancelar");
-        btnCancelar.setBounds(190, 210, 150, 35);
+        Estilo.botonContorno(btnCancelar, Estilo.GRIS);
+        btnCancelar.setBounds(210, 245, 170, 42);
         contentPane.add(btnCancelar);
 
         // Evento del botón Registrar
