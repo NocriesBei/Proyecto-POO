@@ -21,23 +21,29 @@ public class PuntoVenta extends JFrame {
 
     public PuntoVenta(String rol) {
         this.rolActual = rol;
+        Estilo.aplicarTema();
+        setTitle("Taquería Peñascal - Punto de Venta");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 700);
         setLocationRelativeTo(null);
 
         contentPane = new JPanel();
+        contentPane.setBackground(Estilo.CREMA);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
         contentPane.setLayout(null); 
 
         // --- 1. PANEL DERECHO (TICKET) ---
         JPanel panelTicket = new JPanel();
+        panelTicket.setBackground(Estilo.CREMA);
+        panelTicket.setBorder(new javax.swing.border.MatteBorder(0, 4, 0, 0, Estilo.ROSA));
         panelTicket.setBounds(580, 0, 400, 660);
         panelTicket.setLayout(null);
         contentPane.add(panelTicket);
 
-        JButton btnRegresar = new JButton("<- Regresar");
-        btnRegresar.setBounds(10, 10, 120, 30);
+        JButton btnRegresar = new JButton(Estilo.atras("Regresar"));
+        Estilo.botonContorno(btnRegresar, Estilo.GRIS);
+        btnRegresar.setBounds(14, 12, 120, 32);
         panelTicket.add(btnRegresar);
         btnRegresar.addActionListener(e -> {
             MenuPrincipal menu = new MenuPrincipal(this.rolActual);
@@ -45,25 +51,40 @@ public class PuntoVenta extends JFrame {
             dispose();
         });
 
+        JLabel lblTicket = new JLabel("TICKET DE VENTA");
+        lblTicket.setHorizontalAlignment(SwingConstants.RIGHT);
+        Estilo.titulo(lblTicket, 18f, Estilo.ROSA);
+        lblTicket.setBounds(140, 12, 240, 32);
+        panelTicket.add(lblTicket);
+
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(10, 50, 370, 450);
+        scrollPane.setBounds(14, 56, 366, 444);
         panelTicket.add(scrollPane);
 
         modeloTicket = new DefaultTableModel(new Object[][]{}, new String[]{"Producto", "Cant", "Precio", "Subtotal"});
         tablaTicket = new JTable(modeloTicket);
         scrollPane.setViewportView(tablaTicket);
 
+        // --- ESTILO DE LA TABLA DEL TICKET ---
+        Estilo.tabla(tablaTicket, scrollPane);
+        Estilo.alinear(tablaTicket, 1, SwingConstants.CENTER);
+        Estilo.dinero(tablaTicket, 2);
+        Estilo.dinero(tablaTicket, 3);
+        Estilo.ancho(tablaTicket, 0, 148);
+        Estilo.ancho(tablaTicket, 1, 58);
+        Estilo.ancho(tablaTicket, 2, 74);
+        Estilo.ancho(tablaTicket, 3, 86);
+
         lblTotal = new JLabel("Total: $0.00");
-        lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        lblTotal.setForeground(new Color(192, 57, 43));
-        lblTotal.setBounds(10, 510, 370, 40);
+        lblTotal.setHorizontalAlignment(SwingConstants.RIGHT);
+        Estilo.titulo(lblTotal, 28f, Estilo.TEXTO);
+        lblTotal.setBounds(14, 510, 366, 40);
         panelTicket.add(lblTotal);
 
         JButton btnCobrar = new JButton("COBRAR");
-        btnCobrar.setBackground(new Color(39, 174, 96));
-        btnCobrar.setForeground(Color.WHITE);
-        btnCobrar.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        btnCobrar.setBounds(10, 560, 370, 50);
+        Estilo.boton(btnCobrar, Estilo.VERDE);
+        btnCobrar.setFont(Estilo.fuente(Font.BOLD, 20f));
+        btnCobrar.setBounds(14, 562, 366, 56);
         panelTicket.add(btnCobrar);
         
         // --- EVENTO DE COBRAR INTEGRADO CON MYSQL ---
@@ -121,7 +142,6 @@ public class PuntoVenta extends JFrame {
             }
         });
 
-        // --- 2. BOTONES "+" PEQUEÑOS PARA EL MENÚ ---
 
         // ================= TACOS ($15) =================
         JButton btn1 = new JButton("+");
@@ -130,7 +150,7 @@ public class PuntoVenta extends JFrame {
         btn1.setMargin(new Insets(0, 0, 0, 0));
         btn1.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btn1.addActionListener(e -> agregarAlTicket("Taco Maciza", 15.00));
-        
+        contentPane.add(btn1);
         
         JButton btn2 = new JButton("+");
         btn2.setBounds(25, 250, 20, 13);
@@ -391,12 +411,22 @@ public class PuntoVenta extends JFrame {
         btn33.addActionListener(e -> agregarAlTicket("Carne Enchilada", 40.00));
         contentPane.add(btn33);
 
+        // --- ESTILO DE LOS BOTONES ---
+        for (Component c : contentPane.getComponents()) {
+            if (c instanceof JButton) {
+                Estilo.botonMas((JButton) c);
+            }
+        }
+
         // --- 3. FONDO DEL MENÚ ---
         JLabel lblFondoMenu = new JLabel("");
         lblFondoMenu.setBounds(0, 0, 580, 660);
-        ImageIcon iconoOriginal = new ImageIcon("/home/beiza/Imágenes/Imagen_Taqueria.jpeg");
-        Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(580, 660, Image.SCALE_SMOOTH);
-        lblFondoMenu.setIcon(new ImageIcon(imagenEscalada));
+        java.net.URL urlFondo = getClass().getResource("/Imagenes/Imagen_Taqueria.jpeg");
+        if (urlFondo != null) {
+            ImageIcon iconoOriginal = new ImageIcon(urlFondo);
+            Image imagenEscalada = iconoOriginal.getImage().getScaledInstance(580, 660, Image.SCALE_SMOOTH);
+            lblFondoMenu.setIcon(new ImageIcon(imagenEscalada));
+        }
         contentPane.add(lblFondoMenu);
     }
 
