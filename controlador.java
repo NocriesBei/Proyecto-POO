@@ -9,7 +9,6 @@ import java.util.List;
 import com.penascal.bd.bd;
 import com.penascal.modelo.Producto;
 
-
 public class controlador {
     private bd bd = new bd();
 
@@ -30,7 +29,7 @@ public class controlador {
 
     public List<Producto> obtenerProductos() {
         List<Producto> lista = new ArrayList<>();
-        String sql = "SELECT idProducto, nombre, precio, tipoConsumo FROM Productos";	        
+        String sql = "SELECT idProducto, nombre, precio, tipoConsumo FROM Productos";            
         try (Connection con = bd.Conectar();
              PreparedStatement ps = con.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
@@ -55,9 +54,9 @@ public class controlador {
         String sql =  "Select rol from usuarios Where nombre = ? and password = ?";
         bd conexionBd = new bd();
         try (Connection con = conexionBd.Conectar();
-            PreparedStatement ps = con.prepareStatement(sql)){    				
+             PreparedStatement ps = con.prepareStatement(sql)){                    
             ps.setString(1, usuario);
-            ps.setString(2, password);		
+            ps.setString(2, password);        
             try (ResultSet rs= ps.executeQuery()){
                 if(rs.next()) {
                     rol = rs.getString("rol");
@@ -110,5 +109,18 @@ public class controlador {
         }
         
         return registrado;
+    }
+
+    public boolean eliminarProducto(int idProducto) {
+        String sql = "DELETE FROM Productos WHERE idProducto = ?";
+        try (Connection con = bd.Conectar();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idProducto);
+            ps.execute();
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error al eliminar: " + e.getMessage());
+            return false;
+        }
     }
 }
