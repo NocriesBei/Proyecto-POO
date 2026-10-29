@@ -25,73 +25,107 @@ public class GestionProductos extends JFrame {
 
     public GestionProductos(String rolUsuario) {
         this.rolActual = rolUsuario;
+        Estilo.aplicarTema();
         
         setTitle("Taquería Peñascal - Gestión de Productos (" + rolActual + ")");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 750, 500);
+        setBounds(100, 100, 840, 570);
         setLocationRelativeTo(null);
 
         contentPane = new JPanel();
+        contentPane.setBackground(Estilo.CREMA);
         contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        
+         // --- TIRA DE PAPEL PICADO ---
+        JPanel tira = Estilo.tira(26);
+        tira.setBounds(0, 0, 840, 26);
+        contentPane.add(tira);
 
         // --- BOTÓN REGRESAR ---
         JButton btnRegresar = new JButton("<- Menú");
-        btnRegresar.setBounds(12, 0, 90, 25);
+        Estilo.botonContorno(btnRegresar, Estilo.GRIS);
+        btnRegresar.setBounds(20, 30, 100, 32);
         contentPane.add(btnRegresar);
 
         // --- TÍTULO ---
         JLabel lblTitulo = new JLabel("Gestión de Productos");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitulo.setBounds(36, 28, 200, 30);
+        Estilo.titulo(lblTitulo, 24f, Estilo.ROSA);
+        lblTitulo.setBounds(138, 28, 400, 36);
         contentPane.add(lblTitulo);
 
         // --- FORMULARIO (REGISTRAR) ---
-        JLabel lblNombre = new JLabel("Nombre:");
-        lblNombre.setBounds(20, 70, 80, 25);
-        contentPane.add(lblNombre);
+        JPanel tarjeta = Estilo.tarjeta();
+        tarjeta.setBounds(20, 85, 285, 400);
+        contentPane.add(tarjeta);
 
-        txtNombre = new JTextField();
-        txtNombre.setBounds(100, 70, 180, 25);
-        contentPane.add(txtNombre);
+        JLabel lblNuevo = new JLabel("Nuevo producto");
+        Estilo.titulo(lblNuevo, 16f, Estilo.TEXTO);
+        lblNuevo.setBounds(22, 16, 240, 26);
+        tarjeta.add(lblNuevo);
 
-        JLabel lblPrecio = new JLabel("Precio ($):");
-        lblPrecio.setBounds(20, 110, 80, 25);
-        contentPane.add(lblPrecio);
+        JPanel barra = Estilo.linea(Estilo.AMARILLO);
+        barra.setBounds(22, 46, 50, 4);
+        tarjeta.add(barra);
+
+        JLabel lblNombre = new JLabel("Nombre");
+        Estilo.etiqueta(lblNombre);
+        lblNombre.setBounds(22, 64, 200, 18);
+        tarjeta.add(lblNombre);
+        
+        txtNombre = new JTextField()
+        Estilo.campo(txtNombre);
+        txtNombre.setBounds(22, 86, 238, 34);
+        tarjeta.add(txtNombre);
+
+        JLabel lblPrecio = new JLabel("Precio ($)");
+        Estilo.etiqueta(lblPrecio);
+        lblPrecio.setBounds(22, 130, 200, 18);
+        tarjeta.add(lblPrecio);
 
         txtPrecio = new JTextField();
-        txtPrecio.setBounds(100, 110, 180, 25);
-        contentPane.add(txtPrecio);
+        Estilo.campo(txtPrecio);
+        txtPrecio.setBounds(22, 152, 238, 34);
+        tarjeta.add(txtPrecio);
 
-        JLabel lblTipo = new JLabel("Consumo:");
-        lblTipo.setBounds(20, 150, 80, 25);
-        contentPane.add(lblTipo);
+        JLabel lblTipo = new JLabel("Consumo");
+        Estilo.etiqueta(lblTipo);
+        lblTipo.setBounds(22, 196, 200, 18);
+        tarjeta.add(lblTipo);
 
         comboTipo = new JComboBox<>();
         comboTipo.addItem("Local");
         comboTipo.addItem("Llevar");
-        comboTipo.setBounds(100, 150, 180, 25);
-        contentPane.add(comboTipo);
+        Estilo.combo(comboTipo);
+        comboTipo.setBounds(22, 218, 238, 34);
+        tarjeta.add(comboTipo);
 
         JButton btnGuardar = new JButton("Guardar Producto");
-        btnGuardar.setBackground(new Color(41, 128, 185));
-        btnGuardar.setForeground(Color.WHITE);
-        btnGuardar.setBounds(20, 200, 260, 35);
-        contentPane.add(btnGuardar);
+        Estilo.boton(btnGuardar, Estilo.ROSA);
+        btnGuardar.setBounds(22, 282, 238, 42);
+        tarjeta.add(btnGuardar);
+
+        // --- BOTÓN ELIMINAR ---
+        JButton btnEliminar = new JButton("Eliminar Seleccionado");
+        Estilo.botonContorno(btnEliminar, Estilo.ROJO);
+        btnEliminar.setBounds(22, 336, 238, 42);
+        tarjeta.add(btnEliminar);
         
         // --- COMPONENTES DE BÚSQUEDA Y FILTRO ---
         JLabel lblBuscar = new JLabel("Buscar:");
-        lblBuscar.setBounds(295, 25, 60, 25);
+        Estilo.etiqueta(lblBuscar);
+        lblBuscar.setBounds(328, 92, 60, 22);
         contentPane.add(lblBuscar);
 
         txtBuscar = new JTextField();
-        txtBuscar.setBounds(360, 25, 350, 25);
+        Estilo.campo(txtBuscar);
+        txtBuscar.setBounds(385, 85, 420, 34);
         contentPane.add(txtBuscar);
         
         // --- TABLA (CONSULTAR) ---
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setBounds(310, 60, 400, 370);
+        scrollPane.setBounds(328, 132, 477, 353);
         contentPane.add(scrollPane);
 
         tablaProductos = new JTable();
@@ -103,8 +137,18 @@ public class GestionProductos extends JFrame {
         tablaProductos.setModel(modeloTabla);
         scrollPane.setViewportView(tablaProductos);
 
-        cargarTabla();
+        // --- ESTILO DE LA TABLA ---
+        Estilo.tabla(tablaProductos, scrollPane);
+        Estilo.alinear(tablaProductos, 0, SwingConstants.CENTER);
+        Estilo.dinero(tablaProductos, 2);
+        Estilo.alinear(tablaProductos, 3, SwingConstants.CENTER);
+        Estilo.ancho(tablaProductos, 0, 50);
+        Estilo.ancho(tablaProductos, 1, 210);
+        Estilo.ancho(tablaProductos, 2, 90);
+        Estilo.ancho(tablaProductos, 3, 90);
 
+        cargarTabla();
+        
         // --- EVENTO DEL BOTÓN REGRESAR ---
         btnRegresar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -125,6 +169,8 @@ public class GestionProductos extends JFrame {
         // --- RESTRICCIÓN POR ROL ---
         if ("Cajero".equalsIgnoreCase(this.rolActual)) {
             lblTitulo.setText("Gestión (Cajero)");
+            btnGuardar.setEnabled(false);
+            btnEliminar.setEnabled(false);
         }
 
         // EVENTO DEL BOTÓN GUARDAR
@@ -161,6 +207,30 @@ public class GestionProductos extends JFrame {
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Por favor, introduce un precio válido en número (ej. 15.50).", "Error de captura", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+        
+        // --- EVENTO DEL BOTÓN ELIMINAR ---
+        btnEliminar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = tablaProductos.getSelectedRow();
+                if (filaSeleccionada == -1) {
+                    JOptionPane.showMessageDialog(null, "Selecciona un producto de la tabla para eliminar.", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                int idProducto = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+
+                int confirm = JOptionPane.showConfirmDialog(null, "¿Estás seguro de eliminar este producto?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    controlador ctrl = new controlador();
+                    if (ctrl.eliminarProducto(idProducto)) {
+                        JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+                        cargarTabla(); 
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar el producto de la base de datos.", "Error BD", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });
