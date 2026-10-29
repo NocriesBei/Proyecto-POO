@@ -37,46 +37,74 @@ public class MenuLogin extends JFrame {
     }
 
     public MenuLogin() {
+        Estilo.aplicarTema();
+        setTitle("Taquería Peñascal - Inicio de sesión");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 740, 636);
+        setBounds(100, 100, 740, 620);
+        setLocationRelativeTo(null);
         contentPane = new JPanel();
-        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBackground(Estilo.CREMA);
+        contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
-        JPanel panelLogin = new JPanel();
-        panelLogin.setBounds(146, 145, 443, 307);
+
+        // --- BANNER DE PAPEL PICADO ---
+        JLabel banner = Estilo.banner(740);
+        banner.setBounds(0, 0, 740, Estilo.altoBanner(740));
+        contentPane.add(banner);
+
+        // --- TARJETA DE LOGIN ---
+        JPanel panelLogin = Estilo.tarjeta();
+        panelLogin.setBounds(145, 175, 450, 330);
         contentPane.add(panelLogin);
-        panelLogin.setLayout(null);
-        
-        JLabel jlTaqueria = new JLabel("TAQUERIA PEÑASCAL");
+
+        JLabel jlTaqueria = new JLabel("TAQUERÍA PEÑASCAL");
         jlTaqueria.setHorizontalAlignment(SwingConstants.CENTER);
-        jlTaqueria.setFont(new Font("Dialog", Font.BOLD, 26));
-        jlTaqueria.setBounds(12, 37, 419, 71);
+        Estilo.titulo(jlTaqueria, 27f, Estilo.ROSA);
+        jlTaqueria.setBounds(0, 26, 447, 38);
         panelLogin.add(jlTaqueria);
-        
+
+        JLabel jlSub = new JLabel("Sistema de punto de venta");
+        jlSub.setHorizontalAlignment(SwingConstants.CENTER);
+        Estilo.subtitulo(jlSub);
+        jlSub.setBounds(0, 64, 447, 20);
+        panelLogin.add(jlSub);
+
+        JPanel barra = Estilo.linea(Estilo.AMARILLO);
+        barra.setBounds(183, 94, 80, 4);
+        panelLogin.add(barra);
+
         JLabel jlUsuario = new JLabel("SELECCIONE SU USUARIO");
-        jlUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-        jlUsuario.setBounds(80, 120, 276, 17);
+        Estilo.etiqueta(jlUsuario);
+        jlUsuario.setBounds(50, 112, 350, 18);
         panelLogin.add(jlUsuario);
-        
+
         comUsuarios = new JComboBox<String>();
-        comUsuarios.setBounds(90, 149, 266, 26);
+        Estilo.combo(comUsuarios);
+        comUsuarios.setBounds(50, 134, 346, 34);
         panelLogin.add(comUsuarios);
-        
+
         JLabel jlContraseña = new JLabel("INGRESE SU CONTRASEÑA");
-        jlContraseña.setHorizontalAlignment(SwingConstants.CENTER);
-        jlContraseña.setBounds(80, 197, 276, 17);
+        Estilo.etiqueta(jlContraseña);
+        jlContraseña.setBounds(50, 184, 350, 18);
         panelLogin.add(jlContraseña);
-        
+
         jtContraseña = new JPasswordField();
-        jtContraseña.setBounds(90, 222, 266, 21);
         jtContraseña.setColumns(10);
+        Estilo.campo(jtContraseña);
+        jtContraseña.setBounds(50, 206, 346, 34);
         panelLogin.add(jtContraseña);
-        
+
         JButton btnIngresar = new JButton("Ingresar");
-        btnIngresar.setBounds(157, 255, 133, 27);
+        Estilo.boton(btnIngresar, Estilo.ROSA);
+        btnIngresar.setBounds(50, 260, 346, 44);
         panelLogin.add(btnIngresar);
+
+        JLabel jlPie = new JLabel("© 2026 Taquería Peñascal");
+        jlPie.setHorizontalAlignment(SwingConstants.CENTER);
+        Estilo.subtitulo(jlPie);
+        jlPie.setBounds(0, 530, 740, 20);
+        contentPane.add(jlPie);
 
         // --- EVENTO AL SELECCIONAR EN EL COMBOBOX ---
         comUsuarios.addActionListener(new ActionListener() {
