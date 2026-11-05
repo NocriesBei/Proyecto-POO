@@ -1,0 +1,130 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package com.penascal.bd {
+    class bd {
+        + Conectar() : Connection
+    }
+}
+
+package com.penascal.modelo {
+    class Producto {
+        - idProducto : int
+        - nombre : String
+        - precio : double
+        - tipoConsumo : String
+        + Producto(id: int, nombre: String, precio: double, tipoConsumo: String)
+        + getIdProducto() : int
+        + getNombre() : String
+        + getPrecio() : double
+        + getTipoConsumo() : String
+        + setNombre(nombre: String) : void
+        + setPrecio(precio: double) : void
+        + setTipoConsumo(tipo: String) : void
+    }
+}
+
+package com.penascal.controlador {
+    class controlador {
+        - bd : bd
+        + registrarProducto(producto: Producto) : boolean
+        + obtenerProductos() : List<Producto>
+        + validarLogin(usuario: String, password: String) : String
+        + obtenerNombresUsuarios() : List<String>
+        + registrarUsuario(usuario: String, password: String, rol: String) : boolean
+        + eliminarProducto(idProducto: int) : boolean
+    }
+
+    class Estadisticas {
+        + cargar() : Resumen
+        - cargarHoy(con: Connection, r: Resumen) : void
+        - cargarTopProductos(con: Connection, r: Resumen) : void
+        - cargarConsumo(con: Connection, r: Resumen) : void
+        - cargarSemana(con: Connection, r: Resumen) : void
+    }
+
+    class Resumen {
+        + conexionOk : boolean
+        + ventasHoy : double
+        + ticketsHoy : int
+        + topNombres : List<String>
+        + topCantidades : List<Integer>
+        + porConsumo : Map<String, Integer>
+        + diasEtiquetas : List<String>
+        + diasMonto : List<Double>
+        + diasTickets : List<Integer>
+    }
+    
+    Estadisticas +-- Resumen : "contiene"
+}
+
+package com.penascal.main {
+    class main {
+        + {static} main(args: String[]) : void
+    }
+}
+
+package com.penascal.vista {
+    class Estilo {
+        + {static} aplicarTema() : void
+        + {static} boton(btn: JButton, color: Color) : void
+        + {static} botonContorno(btn: JButton, color: Color) : void
+        + {static} tabla(tabla: JTable, scroll: JScrollPane) : void
+    }
+
+    class MenuLogin extends JFrame {
+        - txtUsuario : JTextField
+        - txtPassword : JPasswordField
+    }
+
+    class MenuPrincipal extends JFrame {
+        - rolActual : String
+    }
+
+    class PanelResumen extends JPanel {
+        - esAdmin : boolean
+        - kpiPrincipal : Tarjeta
+        - kpiTickets : Tarjeta
+        - kpiEstrella : Tarjeta
+        + cargar() : void
+        + mostrar(r: Estadisticas.Resumen) : void
+    }
+
+    class GestionProductos extends JFrame {
+        - tablaProductos : JTable
+        - modeloTabla : DefaultTableModel
+    }
+
+    class PuntoVenta extends JFrame {
+        - tablaTicket : JTable
+        - modeloTicket : DefaultTableModel
+        - totalVenta : double
+        - rolActual : String
+    }
+
+    class ReportesCorte extends JFrame {
+        - tablaReportes : JTable
+        - modeloReporte : DefaultTableModel
+        - generarPDFCorte() : void
+    }
+
+    class RegistroUsuario extends JFrame {
+        - txtUsuario : JTextField
+        - txtPassword : JPasswordField
+        - comboRol : JComboBox<String>
+    }
+}
+
+' Relaciones principales
+controlador --> bd : usa
+controlador ..> Producto : gestiona
+Estadisticas ..> bd : consulta
+PanelResumen --> Estadisticas : consume datos
+MenuPrincipal *-- PanelResumen : contiene
+MenuLogin --> MenuPrincipal : abre
+MenuPrincipal --> PuntoVenta : abre
+MenuPrincipal --> GestionProductos : abre
+MenuPrincipal --> ReportesCorte : abre
+MenuPrincipal --> RegistroUsuario : abre
+main --> MenuLogin : inicia
+@enduml
